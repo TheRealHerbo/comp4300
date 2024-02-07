@@ -1,0 +1,3 @@
+/home/botondhergyo/comp4300/lecture4/build/CMakeFiles/sfml_game.dir
+/home/botondhergyo/comp4300/lecture4/build/CMakeFiles/edit_cache.dir
+/home/botondhergyo/comp4300/lecture4/build/CMakeFiles/rebuild_cache.dir
