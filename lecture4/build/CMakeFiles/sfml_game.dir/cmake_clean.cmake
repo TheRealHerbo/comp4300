@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
+  "/home/botondhergyo/comp4300/lecture4/bin/sfml_game"
+  "/home/botondhergyo/comp4300/lecture4/bin/sfml_game.pdb"
   "CMakeFiles/sfml_game.dir/src/main.cpp.o"
   "CMakeFiles/sfml_game.dir/src/main.cpp.o.d"
-  "sfml_game"
-  "sfml_game.pdb"
 )
 
 # Per-language clean rules from dependency scanning.
