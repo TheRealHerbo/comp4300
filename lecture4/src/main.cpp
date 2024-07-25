@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Shape.hpp>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -13,7 +14,7 @@ class CWindow {
 public:
     int height = 200;
     int width = 200;
-    
+
     CWindow() {}
     CWindow(int iheight, int iwidth)
         : height(iheight), width(iwidth) {}
@@ -21,26 +22,34 @@ public:
 
 class CCircle {
 public:
-    sf::CircleShape circle;
+    sf::CircleShape *circle;
     std::string name;
     float speedx;
     float speedy;
 
     CCircle() {}
-    CCircle(sf::CircleShape circle, std::string sname, float fspeedx, float fspeedy)
+    CCircle(sf::CircleShape *circle, std::string sname, float fspeedx, float fspeedy)
         : name(sname), speedx(fspeedx), speedy(fspeedy) {}
+
+    void moveCircle() {
+        circle->move(speedx, speedy);
+    }
 };
 
 class CRectangle {
 public:
-    sf::RectangleShape rectangle;
+    sf::RectangleShape *rectangle;
     std::string name;
     float speedx;
     float speedy;
 
     CRectangle() {}
-    CRectangle(sf::RectangleShape rectangle,std::string sname, float fspeedx, float fspeedy)
+    CRectangle(sf::RectangleShape *rectangle,std::string sname, float fspeedx, float fspeedy)
         : name(sname), speedx(fspeedx), speedy(fspeedy) {}
+
+    void moveRectangle() {
+        rectangle->move(speedx, speedy);
+    }
 };
 
 std::vector<CCircle> circles;
@@ -55,100 +64,45 @@ std::vector<CRectangle> rectangles;
 */
 
 void read_context(sf::Text& text, CWindow& window) {
-    std::string file = "context.txt";
-    std::string obj_name;
-    std::ifstream fin(file);
 
-    while(fin >> obj_name) {
-        if (obj_name == "Window") {
-            int height;
-            int width;
-            fin >> width >> height;
-
-            CWindow(height, width);
-        }
-        else if(obj_name == "Font") {
-            std::string font_file;
-            int size;
-            int r;
-            int g;
-            int b;
-            fin >> font_file >> size >> r >> g >> b;
-
-            sf::Font font;
-
-            if(!font.loadFromFile(font_file)) {
-                std::cerr << "Couldn't load the font!" << std::endl;
-
-                exit(-1);
-            }
-            text.setFont(font);
-            text.setCharacterSize(size);
-            text.setFillColor(sf::Color(r,g,b));
-        }
-        else if(obj_name == "Circle") {
-            CCircle circle;
-            sf::CircleShape circleShape;
-            std::string name;
-            float x;
-            float y;
-            float speedx;
-            float speedy;
-            int r;
-            int g;
-            int b;
-            float radius;
-
-            fin >> name >> x >> y >> speedx >> speedy >> r >> g >> b >> radius;
-
-            circleShape.setPosition(x, y);
-            circleShape.setFillColor(sf::Color(r,g,b));
-            circleShape.setRadius(radius);
-
-            circle.circle = circleShape;
-            circle.speedx = speedx;
-            circle.speedy = speedy;
-            circle.name = name;
-
-            circles.push_back(circle);
-        }
-        else if(obj_name == "Rectangle") {
-            CRectangle rectangle;
-            sf::RectangleShape rectangleShape;
-            std::string name;
-            float x;
-            float y;
-            float speedx;
-            float speedy;
-            int r;
-            int g;
-            int b;
-            float width;
-            float height;
-
-            fin >> name >> x >> y >> speedx >> speedy >> r >> g >> b >> width >> height;
-
-            rectangleShape.setPosition(x, y);
-            rectangleShape.setFillColor(sf::Color(r,g,b));
-            rectangleShape.setSize(sf::Vector2f(width, height));
-
-            rectangle.rectangle = rectangleShape;
-            rectangle.speedx = speedx;
-            rectangle.speedy = speedy;
-            rectangle.name = name;
-
-            rectangles.push_back(rectangle);
-        }
-    }
 }
 
 int main()
 {
-    sf::RenderWindow renderWindow(sf::VideoMode(200, 200), "SFML works!");
-    CWindow window;
-    sf::Text text;
+    sf::RenderWindow renderWindow(sf::VideoMode(800, 800), "SFML works!");
 
-    read_context(text, window);
+    CWindow window = CWindow(200, 200);
+
+    sf::Text text = sf::Text();
+    sf::Font font = sf::Font();
+    std::cout << "Current working directory: " << std::filesystem::current_path() << std::endl;
+    if (!font.loadFromFile("tech.ttf")) {
+        std::cerr << "Couldn't load the font!" << std::endl;
+        return -1;
+    }
+
+    text.setFont(font);
+    text.setCharacterSize(12);
+    text.setFillColor(sf::Color(250,155,55));
+
+    // read_context(text, window);
+
+    sf::CircleShape circle = sf::CircleShape(100);
+
+    circle.setPosition(100, 100);
+    circle.setFillColor(sf::Color(255, 0, 0));
+
+    CCircle circle1 = CCircle(&circle, "circle1", 1, 1);
+
+    sf::RectangleShape rectangle = sf::RectangleShape(sf::Vector2f(50, 50));
+
+    rectangle.setPosition(200, 200);
+    rectangle.setFillColor(sf::Color(0, 255, 0));
+
+    CRectangle rectangle1 = CRectangle(&rectangle, "rectangle1", 1, 1);
+
+    circles.push_back(circle1);
+    rectangles.push_back(rectangle1);
 
     while (renderWindow.isOpen())
     {
@@ -160,19 +114,12 @@ int main()
         }
 
         renderWindow.clear();
-        for(auto& circle : circles) {
-            circle.circle.move(circle.speedx, circle.speedy);
-            renderWindow.draw(circle.circle);
-        }
-        for(auto& rectangle : rectangles) {
-            rectangle.rectangle.move(rectangle.speedx, rectangle.speedy);
-            renderWindow.draw(rectangle.rectangle);
-        }
+
+        renderWindow.draw(*circle1.circle);
+        renderWindow.draw(*rectangle1.rectangle);
+
         renderWindow.display();
     }
 
     return 0;
 }
-
-
-
