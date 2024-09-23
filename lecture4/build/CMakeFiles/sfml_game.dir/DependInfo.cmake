@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/botondhergyo/Personal/comp4300/lecture4/src/events.cpp" "CMakeFiles/sfml_game.dir/src/events.cpp.o" "gcc" "CMakeFiles/sfml_game.dir/src/events.cpp.o.d"
   "/home/botondhergyo/Personal/comp4300/lecture4/src/main.cpp" "CMakeFiles/sfml_game.dir/src/main.cpp.o" "gcc" "CMakeFiles/sfml_game.dir/src/main.cpp.o.d"
   )
 

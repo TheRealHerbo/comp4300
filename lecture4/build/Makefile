@@ -129,6 +129,30 @@ sfml_game/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sfml_game.dir/build.make CMakeFiles/sfml_game.dir/build
 .PHONY : sfml_game/fast
 
+src/events.o: src/events.cpp.o
+.PHONY : src/events.o
+
+# target to build an object file
+src/events.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sfml_game.dir/build.make CMakeFiles/sfml_game.dir/src/events.cpp.o
+.PHONY : src/events.cpp.o
+
+src/events.i: src/events.cpp.i
+.PHONY : src/events.i
+
+# target to preprocess a source file
+src/events.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sfml_game.dir/build.make CMakeFiles/sfml_game.dir/src/events.cpp.i
+.PHONY : src/events.cpp.i
+
+src/events.s: src/events.cpp.s
+.PHONY : src/events.s
+
+# target to generate assembly for a file
+src/events.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sfml_game.dir/build.make CMakeFiles/sfml_game.dir/src/events.cpp.s
+.PHONY : src/events.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... sfml_game"
+	@echo "... src/events.o"
+	@echo "... src/events.i"
+	@echo "... src/events.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
